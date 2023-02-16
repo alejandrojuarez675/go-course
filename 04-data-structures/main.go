@@ -87,4 +87,23 @@ func getMapsStructures() {
 
 	firstMathStudent := studentsBySubject["math"][0]
 	fmt.Println("firstMathStudent:", firstMathStudent)
+
+	// knowing if exist a value for a key
+	users := make(map[string]string)
+	users["ale"] = "ale@gmail.com"
+	users["mirco"] = "mirco@gmail.com"
+
+	_, okJuan := users["juan"]
+	fmt.Printf("Juan has registered email %v\n", okJuan)
+
+	names := [...]string{"ale", "juan", "mirco"}
+	for i := 0; i < len(names); i++ {
+		name := names[i]
+
+		if email, ok := users[name]; ok {
+			fmt.Println("Email for user", name, "is", email)
+		} else {
+			fmt.Println("Email for user", name, "doesn't exists")
+		}
+	}
 }
