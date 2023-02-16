@@ -15,7 +15,6 @@ func main() {
 
 func log(format string, values ...any) {
 	var now = time.Now().Format(time.RFC822)
-	fmt.Print("[main][", now, "]: ")
-	fmt.Printf(format, values...)
-	fmt.Print("\n")
+	msg := "[main][" + now + "]: " + format + "\n"
+	fmt.Printf(msg, values...)
 }
