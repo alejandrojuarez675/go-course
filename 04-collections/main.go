@@ -97,9 +97,7 @@ func getMapsStructures() {
 	fmt.Printf("Juan has registered email %v\n", okJuan)
 
 	names := [...]string{"ale", "juan", "mirco"}
-	for i := 0; i < len(names); i++ {
-		name := names[i]
-
+	for _, name := range names {
 		if email, ok := users[name]; ok {
 			fmt.Println("Email for user", name, "is", email)
 		} else {
