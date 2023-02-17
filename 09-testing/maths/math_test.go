@@ -3,10 +3,23 @@ package maths
 import "testing"
 
 func TestSumShouldBeOk(t *testing.T) {
-	result := Sum(5, 5)
+	testingData := []struct {
+		a, b           int
+		expectedResult int
+	}{
+		{1, 2, 3},
+		{12, 2, 14},
+		{412, 12, 424},
+		{123124, 12323, 135447},
+		{123, 2, 125},
+	}
 
-	if result != 10 {
-		t.Errorf("Expected 10, but have %d", result)
+	for _, data := range testingData {
+		result := Sum(data.a, data.b)
+
+		if result != data.expectedResult {
+			t.Errorf("Expected %d, have %d", data.expectedResult, result)
+		}
 	}
 }
 
@@ -19,9 +32,23 @@ func TestDivideByZeroShouldReturnError(t *testing.T) {
 }
 
 func TestDivideShouldBeOk(t *testing.T) {
-	result, err := Divide(32, 4)
-
-	if result != 8.0 || err != nil {
-		t.Errorf("Expected 8.0, but have %f", result)
+	testingData := []struct {
+		a, b           int
+		expectedResult float32
+	}{
+		{1, 2, 0.5},
+		{12, 2, 6},
+		{412, 412, 1.0},
+		{123124, 1231240, 0.1},
+		{123, 2, 61.5},
 	}
+
+	for _, data := range testingData {
+		result, err := Divide(data.a, data.b)
+
+		if result != data.expectedResult || err != nil {
+			t.Errorf("Expected %f, but have %f", data.expectedResult, result)
+		}
+	}
+
 }
