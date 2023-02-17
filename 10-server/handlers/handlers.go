@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"server/clients/dummyClient"
 	"server/dao"
-	"server/models"
+	"server/models/externalClientError"
 
 	"github.com/gorilla/mux"
 )
@@ -32,7 +32,7 @@ func GetPeopleById(w http.ResponseWriter, r *http.Request) {
 
 func GetAllEmployees(w http.ResponseWriter, r *http.Request) {
 	employees, err := dummyClient.GetEmployees()
-	if err != (models.ExternalClientError{}) {
+	if err != (externalClientError.ExternalClientError{}) {
 		returnJSON(w, err.Message, err.Status)
 	} else {
 		returnJSON(w, employees, http.StatusOK)

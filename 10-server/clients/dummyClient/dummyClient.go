@@ -5,40 +5,29 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
-	"server/models"
+	"server/models/employee"
+	"server/models/externalClientError"
 )
 
-func GetEmployees() ([]models.Employee, models.ExternalClientError) {
+func GetEmployees() ([]employee.Employee, externalClientError.ExternalClientError) {
 	resp, err := http.Get("https://dummy.restapiexample.com/api/v1/employees")
 	if err != nil {
-		errorToReturn := models.ExternalClientError{
-			Status:  http.StatusExpectationFailed,
-			Message: "Problem in connection with external service",
-		}
-		return []models.Employee{}, errorToReturn
+		return []employee.Employee{}, externalClientError.GetErrorConnection()
 	} else {
 
 		if resp.StatusCode != 200 {
 			fmt.Println("Service response", resp.StatusCode)
-			errorToReturn := models.ExternalClientError{
-				Status:  http.StatusExpectationFailed,
-				Message: "Error on external client. Service response with " + resp.Status,
-			}
-			return []models.Employee{}, errorToReturn
+			return []employee.Employee{}, externalClientError.GetExpectationFailed(resp.Status)
 		}
 
 		defer resp.Body.Close()
 		body, _ := ioutil.ReadAll(resp.Body) // response body is []byte
 
-		var bodyResponse models.EmployeeResponse
+		var bodyResponse employee.EmployeeResponse
 		if err := json.Unmarshal(body, &bodyResponse); err != nil { // Parse []byte to go struct pointer
 			fmt.Println("Can not unmarshal JSON")
-			errorToReturn := models.ExternalClientError{
-				Status:  http.StatusUnprocessableEntity,
-				Message: "Can not unmarshal JSON",
-			}
-			return []models.Employee{}, errorToReturn
+			return []employee.Employee{}, externalClientError.GetUnprocessableEntityError()
 		}
-		return bodyResponse.Data, models.ExternalClientError{}
+		return bodyResponse.Data, externalClientError.ExternalClientError{}
 	}
 }

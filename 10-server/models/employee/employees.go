@@ -1,4 +1,4 @@
-package models
+package employee
 
 type EmployeeResponse struct {
 	Status  string
