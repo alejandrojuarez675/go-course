@@ -35,17 +35,7 @@ func main() {
 			checkServer(url)
 		}
 	}
-	timeChecker("sync check server", serverToCheck, checkServerSyncInline)
-}
-
-func timeChecker(title string, data []string, callback func(data []string)) {
-	fmt.Printf("------- Init %s -------\n", title)
-	initTime := time.Now()
-
-	callback(data)
-
-	diffTime := time.Since(initTime)
-	fmt.Println(title, "takes", diffTime)
+	timeChecker("sync check server", checkServerSyncInline, serverToCheck)
 }
 
 func checkServersSync(serverToCheck []string) {
@@ -93,4 +83,14 @@ func checkServerAsync(url string, channel chan string) {
 	} else {
 		channel <- url + "is online"
 	}
+}
+
+func timeChecker(title string, callback func(data []string), data []string) {
+	fmt.Printf("------- Init %s -------\n", title)
+	initTime := time.Now()
+
+	callback(data)
+
+	diffTime := time.Since(initTime)
+	fmt.Println(title, "takes", diffTime)
 }
