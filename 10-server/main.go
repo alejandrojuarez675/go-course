@@ -1,9 +1,9 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"net/http"
+	"packageserver/handlers"
 )
 
 const PORT = "3000"
@@ -11,7 +11,7 @@ const PORT = "3000"
 func main() {
 	// router
 	mux := http.NewServeMux()
-	mux.HandleFunc("/ping", func(w http.ResponseWriter, r *http.Request) { fmt.Fprintln(w, "pong") })
+	mux.HandleFunc("/ping", handlers.PingHandler)
 
 	// create server
 	server := &http.Server{

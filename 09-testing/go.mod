@@ -1,3 +1,3 @@
-module package
+module packagetesting
 
 go 1.18
