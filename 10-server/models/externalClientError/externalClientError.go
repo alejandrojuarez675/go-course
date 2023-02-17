@@ -9,6 +9,10 @@ type ExternalClientError struct {
 	Message string
 }
 
+func GetEmpty() ExternalClientError {
+	return ExternalClientError{}
+}
+
 func GetErrorConnection() ExternalClientError {
 	return ExternalClientError{
 		Status:  http.StatusExpectationFailed,

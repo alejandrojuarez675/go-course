@@ -32,7 +32,7 @@ func GetPeopleById(w http.ResponseWriter, r *http.Request) {
 
 func GetAllEmployees(w http.ResponseWriter, r *http.Request) {
 	employees, err := dummyClient.GetEmployees()
-	if err != (externalClientError.ExternalClientError{}) {
+	if err != (externalClientError.GetEmpty()) {
 		returnJSON(w, err.Message, err.Status)
 	} else {
 		returnJSON(w, employees, http.StatusOK)
