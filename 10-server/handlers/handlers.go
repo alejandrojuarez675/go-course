@@ -1,25 +1,29 @@
 package handlers
 
 import (
-	"encoding/json"
-	"fmt"
 	"net/http"
-	"server/models"
+	"server/dao"
+
+	"github.com/gorilla/mux"
 )
 
 func PingHandler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "pong")
+	returnJSON(w, "pong", http.StatusOK)
 }
 
 func GetAllPeople(w http.ResponseWriter, r *http.Request) {
-	people := []models.Person{
-		{Name: "ale", Age: 28},
-	}
+	people := dao.GetAllPeople()
+	returnJSON(w, people, http.StatusOK)
+}
 
-	peopleJson, err := json.Marshal(people)
+func GetPeopleById(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	userId, _ := vars["id"]
+
+	person, err := dao.GetPersonById(userId)
 	if err != nil {
-		panic(err)
+		returnJSON(w, "Resource not found", http.StatusNotFound)
+	} else {
+		returnJSON(w, person, http.StatusOK)
 	}
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(peopleJson)
 }

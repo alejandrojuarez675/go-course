@@ -4,15 +4,18 @@ import (
 	"log"
 	"net/http"
 	"server/handlers"
+
+	"github.com/gorilla/mux"
 )
 
 const PORT = "3000"
 
 func main() {
 	// router
-	mux := http.NewServeMux()
-	mux.HandleFunc("/ping", handlers.PingHandler)
-	mux.HandleFunc("/people", handlers.GetAllPeople)
+	mux := mux.NewRouter()
+	mux.HandleFunc("/ping", handlers.PingHandler).Methods("GET")
+	mux.HandleFunc("/people/{id:[0-9]+}", handlers.GetPeopleById).Methods("GET")
+	mux.HandleFunc("/people", handlers.GetAllPeople).Methods("GET")
 
 	// create server
 	server := &http.Server{
