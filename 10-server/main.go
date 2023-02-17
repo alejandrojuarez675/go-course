@@ -9,7 +9,6 @@ import (
 const PORT = "3000"
 
 func main() {
-
 	// router
 	mux := http.NewServeMux()
 	mux.HandleFunc("/ping", func(w http.ResponseWriter, r *http.Request) { fmt.Fprintln(w, "pong") })
@@ -19,6 +18,6 @@ func main() {
 		Addr:    "localhost:" + PORT,
 		Handler: mux,
 	}
-	fmt.Println("Start server on port " + PORT)
+	log.Println("Start server on port " + PORT)
 	log.Fatal(server.ListenAndServe())
 }
