@@ -2,7 +2,9 @@ package handlers
 
 import (
 	"net/http"
+	"server/clients/dummyClient"
 	"server/dao"
+	"server/models"
 
 	"github.com/gorilla/mux"
 )
@@ -25,5 +27,14 @@ func GetPeopleById(w http.ResponseWriter, r *http.Request) {
 		returnJSON(w, "Resource not found", http.StatusNotFound)
 	} else {
 		returnJSON(w, person, http.StatusOK)
+	}
+}
+
+func GetAllEmployees(w http.ResponseWriter, r *http.Request) {
+	employees, err := dummyClient.GetEmployees()
+	if err != (models.ExternalClientError{}) {
+		returnJSON(w, err.Message, err.Status)
+	} else {
+		returnJSON(w, employees, http.StatusOK)
 	}
 }
