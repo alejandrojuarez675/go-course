@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"server/models/employee"
 	"server/models/externalClientError"
+	"time"
 )
 
 type ResponseType interface {
@@ -14,14 +15,16 @@ type ResponseType interface {
 }
 
 func Get[T ResponseType](url string) (T, externalClientError.ExternalClientError) {
+	initTime := time.Now()
 	resp, err := http.Get(url)
+	diffTime := time.Since(initTime)
+	fmt.Println("Service", url, "response in", diffTime, ":", resp.Status)
 
 	var bodyResponse T
 	if err != nil {
 		return bodyResponse, externalClientError.GetErrorConnection()
 	} else {
 
-		fmt.Println("Service "+url+" response", resp.Status)
 		if resp.StatusCode != 200 {
 			return bodyResponse, externalClientError.GetExpectationFailed(resp.Status)
 		}
