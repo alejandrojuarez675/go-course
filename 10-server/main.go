@@ -17,6 +17,7 @@ func main() {
 	mux.HandleFunc("/people/{id}", handlers.GetPeopleById).Methods("GET")
 	mux.HandleFunc("/people", handlers.GetAllPeople).Methods("GET")
 	mux.HandleFunc("/employee", handlers.GetAllEmployees).Methods("GET")
+	mux.HandleFunc("/employee/{id}", handlers.GetEmployeeById).Methods("GET")
 
 	// create server
 	server := &http.Server{

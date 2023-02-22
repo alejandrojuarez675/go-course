@@ -1,8 +1,14 @@
 package employee
 
-type EmployeeResponse struct {
+type EmployeeListResponse struct {
 	Status  string
 	Data    []Employee
+	Message string
+}
+
+type EmployeeResponse struct {
+	Status  string
+	Data    Employee
 	Message string
 }
 

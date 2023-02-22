@@ -38,3 +38,15 @@ func GetAllEmployees(w http.ResponseWriter, r *http.Request) {
 		returnJSON(w, employees, http.StatusOK)
 	}
 }
+
+func GetEmployeeById(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	id, _ := vars["id"]
+
+	employee, err := dummyClient.GetEmployeeById(id)
+	if err != (externalClientError.GetEmpty()) {
+		returnJSON(w, err.Message, err.Status)
+	} else {
+		returnJSON(w, employee, http.StatusOK)
+	}
+}
